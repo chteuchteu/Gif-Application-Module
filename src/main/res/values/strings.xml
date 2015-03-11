@@ -12,4 +12,6 @@
     <string name="cache_emptied_none">Vidage du cache ignoré : le cache est vide</string>
 	<string name="prev">&lt; PREC.</string>
 	<string name="next">SUIV. &gt;</string>
+	<string name="new_gif">1 nouveau gif !</string>
+	<string name="new_gifs">X nouveaux gifs !</string>
 </resources>
