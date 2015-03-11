@@ -1,8 +1,6 @@
 package com.chteuchteu.gifapplicationlibrary.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -34,13 +32,8 @@ import java.util.HashMap;
 
 public class Super_Activity_Main extends ActionBarActivity implements IActivity_Main {
     private GifApplicationSingleton gas;
-    private Activity activity;
-    private Context context;
-    private Toolbar toolbar;
 
-    private ArrayList<HashMap<String, String>> list;
-    private MenuItem menu_notifs;
-    private boolean notifsEnabled;
+	private ArrayList<HashMap<String, String>> list;
     public static int scrollY;
     private ListView lv_gifs;
 
@@ -48,11 +41,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
     protected void onCreate(Bundle savedInstanceState) {
 	    gas = GifApplicationSingleton.getInstance();
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        activity = this;
-        context = this;
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+	    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         lv_gifs = (ListView) findViewById(R.id.list);
@@ -92,29 +83,6 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             }
         });
         CacheUtil.saveLastViewed(this, gas.getFirstGif());
-    }
-
-    private void enableNotifs() {
-        MainUtil.Prefs.setPref(this, "notifs", "true");
-
-        /*int minutes = 180;
-        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent i = new Intent(Activity_Main.this, NotificationService.class);
-        PendingIntent pi = PendingIntent.getService(Activity_Main.this, 0, i, 0);
-        am.cancel(pi);
-        am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + minutes*60*1000, minutes*60*1000, pi);
-        if (menu_notifs != null)
-            menu_notifs.setChecked(true);
-        try {
-            pi.send();
-        } catch (PendingIntent.CanceledException e) {	e.printStackTrace(); }*/
-    }
-
-    private void disableNotifs() {
-        MainUtil.Prefs.setPref(this, "notifs", "false");
-        if (menu_notifs != null)
-            menu_notifs.setChecked(false);
     }
 
     @Override
@@ -174,11 +142,6 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             MainUtil.Prefs.setPref(this, "lastGifsListUpdate", "doitnow");
             new DataSourceParser(this).execute();
             return true;
-        } else if (item.getItemId() == R.id.notifications) {
-            item.setChecked(!item.isChecked());
-            if (item.isChecked()) enableNotifs();
-            else disableNotifs();
-            return true;
         } else if (item.getItemId() == R.id.menu_about) {
             final LinearLayout l = (LinearLayout) findViewById(R.id.about);
 	        TextView aboutTv = (TextView) findViewById(R.id.about_textView);
@@ -234,10 +197,7 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        menu_notifs = menu.findItem(R.id.notifications);
-        menu_notifs.setChecked(MainUtil.Prefs.getPref(this, "notifs").equals("true"));
         return true;
     }
 }
