@@ -7,12 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class GifUtil {
-	public static String formatNumber(int number) {
-		if (number < 10)
-			return "0" + number;
-		return "" + number;
-	}
-
 	public static String getHtml(String gifPath) {
 		String css = "html, body, #wrapper {height:100%;width: 100%;margin: 0;padding: 0;border: 0;} #wrapper td {vertical-align: middle;text-align: center;} .container{width:100%;height:100%;background-image:url('" + gifPath +"'); background-size:contain; background-repeat:no-repeat;background-position:center;}";
 		//String js = "function resizeToMax(id){myImage = new Image();var img = document.getElementById(id);myImage.src = img.src;if(myImage.width / document.body.clientWidth > myImage.height / document.body.clientHeight){img.style.width = \"100%\"; } else {img.style.height = \"100%\";}}";
