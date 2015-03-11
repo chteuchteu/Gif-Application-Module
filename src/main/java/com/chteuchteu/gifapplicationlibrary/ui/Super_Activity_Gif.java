@@ -1,7 +1,6 @@
 package com.chteuchteu.gifapplicationlibrary.ui;
 
-import android.app.Activity;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,10 +31,7 @@ import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 import java.io.File;
 
 public class Super_Activity_Gif extends ActionBarActivity implements IActivity_Gif {
-    private Activity activity;
-    private Context context;
-    private Toolbar toolbar;
-    private GifApplicationSingleton gas;
+	private GifApplicationSingleton gas;
 
     private float deltaY;
     private int pos;
@@ -47,15 +43,15 @@ public class Super_Activity_Gif extends ActionBarActivity implements IActivity_G
     private static final int SWITCH_NEXT = 1;
     private static final int SWITCH_PREVIOUS = 0;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif);
         gas = GifApplicationSingleton.getInstance();
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+	    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        activity = this;
-        context = this;
 
         Intent thisIntent = getIntent();
         pos = 0;
@@ -178,16 +174,17 @@ public class Super_Activity_Gif extends ActionBarActivity implements IActivity_G
         }
     }
 
-    private void stopThread() {
+    private boolean stopThread() {
         if (gifDownloader != null) {
             boolean isDownloading = gifDownloader.isDownloading();
             gifDownloader.cancel(true);
             if (isDownloading) {
                 File photo = new File(gif.getEntiereFileName(gas.getBundle().getSdDirectory(), false));
                 if (photo.exists())
-                    photo.delete();
+                    return photo.delete();
             }
         }
+	    return true;
     }
 
     private void toggleTexts() {

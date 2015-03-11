@@ -34,7 +34,7 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
     private GifApplicationSingleton gas;
 
 	private ArrayList<HashMap<String, String>> list;
-    public static int scrollY;
+    private static int scrollY;
     private ListView lv_gifs;
 
     @Override

@@ -85,7 +85,7 @@
 
 				<TextView
 					android:id="@+id/gif_precedent"
-					android:text="&lt; PREC."
+					android:text="@string/prev"
 					style="@style/PrevNextActionButton" />
 			</LinearLayout>
 
@@ -97,7 +97,7 @@
 
 				<TextView
 					android:id="@+id/gif_suivant"
-					android:text="SUIV. >"
+					android:text="@string/next"
 					style="@style/PrevNextActionButton" />
 			</LinearLayout>
 		</RelativeLayout>

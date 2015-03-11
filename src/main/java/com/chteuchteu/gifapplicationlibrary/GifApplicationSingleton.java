@@ -53,8 +53,4 @@ public class GifApplicationSingleton {
     public Gif getFirstGif() { return this.gifs.size() > 0 ? this.gifs.get(0) : null; }
 
     public GifApplicationBundle getBundle() { return this.bundle; }
-
-    public static void throwUnimplementedException() {
-        throw new RuntimeException("Not implemented method");
-    }
 }
