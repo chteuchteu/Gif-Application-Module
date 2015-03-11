@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.chteuchteu.gifapplicationlibrary.GifApplicationSingleton;
 import com.chteuchteu.gifapplicationlibrary.R;
@@ -180,6 +181,8 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             return true;
         } else if (item.getItemId() == R.id.menu_about) {
             final LinearLayout l = (LinearLayout) findViewById(R.id.about);
+	        TextView aboutTv = (TextView) findViewById(R.id.about_textView);
+	        aboutTv.setText(gas.getBundle().getAboutText());
             if (l.getVisibility() == View.GONE) {
                 MainUtil.Fonts.setFont(this, l, MainUtil.Fonts.CustomFont.Roboto_Regular);
                 l.setVisibility(View.VISIBLE);

@@ -6,13 +6,16 @@ public class GifApplicationBundle {
     private String dataSourceUrl;
     private IDataSourceParser dataSourceParser;
     private String sdDirectory;
+	private String aboutText;
 
     public GifApplicationBundle(String dataSourceUrl,
                                 IDataSourceParser dataSourceParser,
-                                String sdDirectory) {
+                                String sdDirectory,
+                                String aboutText) {
         this.dataSourceUrl = dataSourceUrl;
         this.dataSourceParser = dataSourceParser;
         this.sdDirectory = sdDirectory;
+	    this.aboutText = aboutText;
     }
 
     public String getDataSourceUrl() {
@@ -26,4 +29,8 @@ public class GifApplicationBundle {
     public String getSdDirectory() {
         return sdDirectory;
     }
+
+	public String getAboutText() {
+		return aboutText;
+	}
 }
