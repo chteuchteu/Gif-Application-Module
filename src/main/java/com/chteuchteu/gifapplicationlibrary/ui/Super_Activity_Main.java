@@ -1,7 +1,6 @@
 package com.chteuchteu.gifapplicationlibrary.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,11 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.chteuchteu.gifapplicationlibrary.GifApplicationSingleton;
@@ -24,18 +20,17 @@ import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
 import com.chteuchteu.gifapplicationlibrary.hlpr.GifUtil;
 import com.chteuchteu.gifapplicationlibrary.hlpr.MainUtil;
 import com.chteuchteu.gifapplicationlibrary.i.IActivity_Main;
-import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class Super_Activity_Main extends ActionBarActivity implements IActivity_Main {
     private GifApplicationSingleton gas;
 
-	private ArrayList<HashMap<String, String>> list;
-    private static int scrollY;
-    private ListView lv_gifs;
+    // Fragments
+    private Fragment_List fragment_list;
+    private View fragment_listContainer;
+    private Fragment_Gifs fragment_gifs;
+    private View fragment_gifsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,43 +41,20 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
 	    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        lv_gifs = (ListView) findViewById(R.id.list);
-        list = new ArrayList<>();
+        fragment_list = new Fragment_List();
+        getSupportFragmentManager().beginTransaction().add(R.id.listFragment, fragment_list).commit();
+        fragment_listContainer = findViewById(R.id.listFragment);
 
-        lv_gifs.post(new Runnable() {
-            @Override
-            public void run() {
-                if (scrollY != 0)
-                    lv_gifs.setSelectionFromTop(scrollY, 0);
-            }
-        });
+        fragment_gifs = new Fragment_Gifs();
+        getSupportFragmentManager().beginTransaction().add(R.id.gifsFragment, fragment_gifs).commit();
+        fragment_gifsContainer = findViewById(R.id.gifsFragment);
 
-        refreshListView();
         launchUpdateIfNeeded();
     }
 
     @Override
     public void refreshListView() {
-        ListView l = (ListView) findViewById(R.id.list);
-        list.clear();
-
-        for (Gif g : gas.getGifs()) {
-            if (g.isValid()) {
-                HashMap<String,String> item = new HashMap<>();
-                item.put("line1", g.getName());
-                item.put("line2", g.getDate());
-                list.add(item);
-            }
-        }
-        SimpleAdapter sa = new SimpleAdapter(Super_Activity_Main.this, list, R.layout.list_item, new String[] { "line1","line2" }, new int[] {R.id.line_a, R.id.line_b});
-        l.setAdapter(sa);
-
-        l.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                itemClick(position);
-            }
-        });
-        CacheUtil.saveLastViewed(this, gas.getFirstGif());
+        fragment_list.refreshListView();
     }
 
     @Override
@@ -100,6 +72,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
                 }
             });
             about.startAnimation(a);
+        } else if (fragment_gifsContainer.getVisibility() == View.VISIBLE) {
+            fragment_gifsContainer.setVisibility(View.GONE);
+            fragment_listContainer.setVisibility(View.VISIBLE);
         }
         else
             super.onBackPressed();
@@ -122,12 +97,11 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             new DataSourceParser(this).execute();
     }
 
-    private void itemClick(int pos) {
-        Intent intent = new Intent(Super_Activity_Main.this, Super_Activity_Gif.class);
-        scrollY = ((ListView) findViewById(R.id.list)).getFirstVisiblePosition();
-        intent.putExtra("pos", pos);
-        startActivity(intent);
-        MainUtil.Transitions.setTransition(this, MainUtil.Transitions.TransitionStyle.DEEPER);
+    @Override
+    public void onListItemClick(int position) {
+        fragment_listContainer.setVisibility(View.GONE);
+        fragment_gifsContainer.setVisibility(View.VISIBLE);
+        fragment_gifs.setShownGif(position);
     }
 
     @Override

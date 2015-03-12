@@ -14,9 +14,8 @@ import com.chteuchteu.gifapplicationlibrary.GifApplicationSingleton;
 import com.chteuchteu.gifapplicationlibrary.R;
 import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
 import com.chteuchteu.gifapplicationlibrary.hlpr.GifUtil;
-import com.chteuchteu.gifapplicationlibrary.i.IActivity_Gif;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
-import com.chteuchteu.gifapplicationlibrary.ui.Super_Activity_Gif;
+import com.chteuchteu.gifapplicationlibrary.ui.Fragment_Gif;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,7 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class GifDownloader extends AsyncTask<Void, Integer, Void> {
-    private IActivity_Gif iActivity;
+    private Fragment_Gif gifFragment;
 	private Context context;
     private Gif gif;
 	private GifApplicationSingleton gas;
@@ -38,9 +37,9 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
 
     private boolean isDownloading;
 
-    public GifDownloader(Super_Activity_Gif activity, Gif gif) {
-        this.iActivity = activity;
-	    this.context = activity;
+    public GifDownloader(Fragment_Gif gifFragment, Context context, Gif gif) {
+        this.gifFragment = gifFragment;
+	    this.context = context;
         this.gif = gif;
         this.isDownloading = false;
 	    this.gas = GifApplicationSingleton.getInstance();
@@ -49,12 +48,12 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar = iActivity.getProgressBar();
+        progressBar = gifFragment.getProgressBar();
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
         progressBar.setProgress(0);
         progressBar.setMax(100);
-        webView = iActivity.getWebView();
+        webView = gifFragment.getWebView();
     }
 
     @Override
