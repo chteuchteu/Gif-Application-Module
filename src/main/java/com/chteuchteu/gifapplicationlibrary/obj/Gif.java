@@ -3,18 +3,21 @@ package com.chteuchteu.gifapplicationlibrary.obj;
 import android.os.Environment;
 
 public class Gif {
-    private String name = "";
-    private String articleUrl = "";
-    private String gifUrl = "";
-    private String date = "";
-    private int state = 0;
+    private String name;
+    private String articleUrl;
+    private String gifUrl;
+    private String date;
+    private GifState state;
 
-    public final static int ST_UNKNOWN = 0;
-    public final static int ST_EMPTY = 1;
-    public final static int ST_DOWNLOADING = 2;
-    public final static int ST_COMPLETE = 3;
+    public enum GifState { UNKNOWN, EMPTY, DOWNLOADING, COMPLETE }
 
-    public Gif() { }
+    public Gif() {
+        this.name = "";
+        this.articleUrl = "";
+        this.gifUrl = "";
+        this.date = "";
+        this.state = GifState.UNKNOWN;
+    }
 
     public Gif(String name, String articleUrl, String gifUrl, String date) {
         this.name = name;
@@ -28,7 +31,10 @@ public class Gif {
     }
 
     public boolean equals(Gif g) {
-        return this.name.equals(g.name) && !(!this.articleUrl.equals("") && !g.articleUrl.equals("") && !this.articleUrl.equals(g.articleUrl)) && !(!this.gifUrl.equals("") && !g.gifUrl.equals("") && !this.gifUrl.equals(g.gifUrl)) && !(!this.date.equals("") && !g.date.equals("") && !this.date.equals(g.date));
+        return this.name.equals(g.getName())
+                && this.articleUrl.equals(g.getArticleUrl())
+                && this.gifUrl.equals(g.getGifUrl())
+                && this.date.equals(g.getDate());
     }
 
     // http://lesjoiesdeletudiantinfo.com/3392/quand-tu-rentres-dans-une-salle-de-cours-en-t/
@@ -74,10 +80,10 @@ public class Gif {
         this.date = date;
     }
 
-    public int getState() {
+    public GifState getState() {
         return state;
     }
-    public void setState(int state) {
+    public void setState(GifState state) {
         this.state = state;
     }
 }

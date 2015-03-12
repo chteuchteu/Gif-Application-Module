@@ -114,8 +114,8 @@ public class Fragment_Gif extends Fragment {
             gifDownloader = new GifDownloader(this, context, gif);
             gifDownloader.execute();
         } else {
-            if (gif.getState() != Gif.ST_COMPLETE)
-                gif.setState(Gif.ST_COMPLETE);
+            if (gif.getState() != Gif.GifState.COMPLETE)
+                gif.setState(Gif.GifState.COMPLETE);
             String imagePath = gif.getEntiereFileName(gas.getBundle().getSdDirectory(), true);
 
             webView.loadDataWithBaseURL("", GifUtil.getHtml(imagePath), "text/html", "utf-8", "");

@@ -42,8 +42,8 @@ public class CacheUtil {
         int crt = 0;
         if (files != null) {
             for (File f : files) {
-                f.delete();
-                crt++;
+                if (f.delete())
+                    crt++;
             }
         }
         String txt;
@@ -65,11 +65,11 @@ public class CacheUtil {
     public static boolean removeUncompleteGifs(String sdFolderName, Context context, List<Gif> l) {
         boolean needSave = false;
         for (Gif g : l) {
-            if (g.getState() == Gif.ST_DOWNLOADING) {
+            if (g.getState() == Gif.GifState.DOWNLOADING) {
                 File f = new File(g.getEntiereFileName(sdFolderName, false));
                 if (f.exists())
                     f.delete();
-                g.setState(Gif.ST_EMPTY);
+                g.setState(Gif.GifState.EMPTY);
                 needSave = true;
             }
         }
@@ -77,6 +77,7 @@ public class CacheUtil {
             saveGifs(context, l);
         return needSave;
     }
+    // TODO clean method
 	public static void removeOldGifs(String sdFolderName, List<Gif> l) {
 		if (l != null && l.size() > 10) {
 			String path = Environment.getExternalStorageDirectory().toString() + "/" + sdFolderName + "/";

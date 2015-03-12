@@ -69,19 +69,4 @@ public class MainUtil {
             }
         }
     }
-
-    public static final class Transitions {
-        public enum TransitionStyle { DEEPER, SHALLOWER }
-
-        public static void setTransition(Activity activity, TransitionStyle transitionStyle) {
-            switch (transitionStyle) {
-                case DEEPER:
-                    activity.overridePendingTransition(R.anim.deeper_in, R.anim.deeper_out);
-                    break;
-                case SHALLOWER:
-                    activity.overridePendingTransition(R.anim.shallower_in, R.anim.shallower_out);
-                    break;
-            }
-        }
-    }
 }
