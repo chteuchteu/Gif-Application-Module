@@ -196,4 +196,5 @@ public class Fragment_Gif extends Fragment {
 
     public ProgressBar getProgressBar() { return this.progressBar; }
     public WebView getWebView() { return this.webView; }
+    public Gif getGif() { return this.gif; }
 }

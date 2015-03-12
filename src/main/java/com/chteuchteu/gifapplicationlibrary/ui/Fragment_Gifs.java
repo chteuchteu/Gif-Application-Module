@@ -17,6 +17,7 @@ public class Fragment_Gifs extends Fragment {
     private FragmentManager fragmentManager;
 
     private ViewPager viewPager;
+    private GifsAdapter adapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -31,7 +32,7 @@ public class Fragment_Gifs extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_gifs, container, false);
 
-        GifsAdapter adapter = new GifsAdapter(gas.getGifs(), fragmentManager);
+        adapter = new GifsAdapter(gas.getGifs(), fragmentManager);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);
@@ -41,5 +42,15 @@ public class Fragment_Gifs extends Fragment {
 
     public void setShownGif(int gifIndex) {
         viewPager.setCurrentItem(gifIndex, false);
+    }
+
+    public void refreshCurrentGif() {
+        int currentItem = viewPager.getCurrentItem();
+        Fragment_Gif fragment = (Fragment_Gif) adapter.getItem(currentItem);
+        fragment.refreshGif();
+    }
+
+    public int getCurrentPosition() {
+        return viewPager.getCurrentItem();
     }
 }

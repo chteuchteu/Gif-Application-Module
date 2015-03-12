@@ -42,7 +42,7 @@ public class Gif {
         String path = "";
         if (withFilePrefix)
             path += "file://";
-        path += Environment.getExternalStorageDirectory().getPath() + "/" + sdFolderName + getFileName() + ".gif";
+        path += Environment.getExternalStorageDirectory().getPath() + "/" + sdFolderName + "/" + getFileName() + ".gif";
         return path;
     }
 
