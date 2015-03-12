@@ -120,6 +120,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         menu_gif_share.setVisible(true);
         menu_gif_openWebsite.setVisible(true);
         menu_gif_refresh.setVisible(true);
+
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void backToList() {
@@ -133,6 +136,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         menu_gif_share.setVisible(false);
         menu_gif_openWebsite.setVisible(false);
         menu_gif_refresh.setVisible(false);
+
+        getSupportActionBar().setTitle(gas.getBundle().getAppName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -143,7 +149,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
     @SuppressLint("NewApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_list_refresh) {
+        if (item.getItemId() == android.R.id.home) {
+            backToList();
+        } else if (item.getItemId() == R.id.menu_list_refresh) {
             MainUtil.Prefs.setPref(this, "lastGifsListUpdate", "doitnow");
             new DataSourceParser(this).execute();
             return true;
