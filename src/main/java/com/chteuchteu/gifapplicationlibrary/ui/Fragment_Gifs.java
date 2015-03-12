@@ -34,6 +34,7 @@ public class Fragment_Gifs extends Fragment {
         GifsAdapter adapter = new GifsAdapter(gas.getGifs(), fragmentManager);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
 
         return view;
     }

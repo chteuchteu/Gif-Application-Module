@@ -32,6 +32,7 @@ public class Fragment_Gif extends Fragment {
 
     private Gif gif;
     private View view;
+    private ViewGroup webViewContainer;
 
     private boolean textsShown;
     private WebView webView;
@@ -52,7 +53,6 @@ public class Fragment_Gif extends Fragment {
         this.context = activity;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -74,15 +74,9 @@ public class Fragment_Gif extends Fragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.pb);
 
-        webView = (WebView) view.findViewById(R.id.wv);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setBuiltInZoomControls(false);
-        webView.setHorizontalScrollBarEnabled(false);
-        webView.setVerticalScrollBarEnabled(false);
-        webView.setVerticalFadingEdgeEnabled(false);
-        webView.setHorizontalFadingEdgeEnabled(false);
-        webView.setBackgroundColor(0x00000000);
+        webViewContainer = (ViewGroup) view.findViewById(R.id.wvContainer);
+        webView = getWebView(getActivity().getApplicationContext());
+        webViewContainer.addView(webView);
 
         MainUtil.Fonts.setFont(context, (TextView) view.findViewById(R.id.header_nom), MainUtil.Fonts.CustomFont.Roboto_Light);
 
@@ -96,6 +90,20 @@ public class Fragment_Gif extends Fragment {
         loadGif();
 
         return view;
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public static WebView getWebView(Context applicationContext) {
+        WebView webView = new WebView(applicationContext);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.setHorizontalScrollBarEnabled(false);
+        webView.setVerticalScrollBarEnabled(false);
+        webView.setVerticalFadingEdgeEnabled(false);
+        webView.setHorizontalFadingEdgeEnabled(false);
+        webView.setBackgroundColor(0x00000000);
+        return webView;
     }
 
     private void loadGif() {
@@ -124,6 +132,13 @@ public class Fragment_Gif extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        webViewContainer.removeAllViews();
+        webView.destroy();
     }
 
     public void refreshGif() {

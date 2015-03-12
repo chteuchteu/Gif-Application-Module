@@ -3,18 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/wv_container"
+    <FrameLayout
+        android:id="@+id/wvContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <WebView
-            android:id="@+id/wv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <ProgressBar
         android:id="@+id/pb"
@@ -31,12 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="#66ffffff"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:id="@+id/header_nom"
