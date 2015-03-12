@@ -141,7 +141,12 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
-    @Override
+	@Override
+	public void onGifsListChanged() {
+		fragment_gifs.notifyDataSetChanged();
+	}
+
+	@Override
     public ProgressBar getProgressBar() {
         return (ProgressBar) findViewById(R.id.pb);
     }

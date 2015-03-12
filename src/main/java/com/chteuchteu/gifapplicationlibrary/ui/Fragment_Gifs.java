@@ -40,6 +40,10 @@ public class Fragment_Gifs extends Fragment {
         return view;
     }
 
+	public void notifyDataSetChanged() {
+		this.adapter.notifyDataSetChanged();
+	}
+
     public void setShownGif(int gifIndex) {
         viewPager.setCurrentItem(gifIndex, false);
     }

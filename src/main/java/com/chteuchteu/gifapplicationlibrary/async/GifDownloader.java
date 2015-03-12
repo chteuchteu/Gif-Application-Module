@@ -89,7 +89,7 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
             long total = 0;
             int count;
 
-            gif.setState(Gif.ST_DOWNLOADING);
+            gif.setState(Gif.GifState.DOWNLOADING);
 
             while ((count = input.read(data)) != -1) {
                 if (isCancelled()) {
@@ -131,7 +131,7 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
 
         if (photo != null && photo.exists()) {
             try {
-                gif.setState(Gif.ST_COMPLETE);
+                gif.setState(Gif.GifState.COMPLETE);
 
                 webView.setVisibility(View.GONE);
                 String imagePath = gif.getEntiereFileName(gas.getBundle().getSdDirectory(), true);
@@ -158,7 +158,7 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
 
     private void onDownloadError() {
         Toast.makeText(context, R.string.download_error, Toast.LENGTH_SHORT).show();
-        gif.setState(Gif.ST_DOWNLOADING);
+        gif.setState(Gif.GifState.DOWNLOADING);
         CacheUtil.removeUncompleteGifs(gas.getBundle().getSdDirectory(), context, gas.getGifs());
         progressBar.setVisibility(View.GONE);
     }

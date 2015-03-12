@@ -81,6 +81,7 @@ public class DataSourceParser extends AsyncTask<Void, Integer, Void> {
         progressBar.setVisibility(View.GONE);
 
         if (needsUpdate) {
+	        iActivity.onGifsListChanged();
             iActivity.refreshListView();
 
             CacheUtil.saveLastViewed(context, GifApplicationSingleton.getInstance().getFirstGif());
