@@ -2,12 +2,37 @@ package com.chteuchteu.gifapplicationlibrary.obj;
 
 import com.chteuchteu.gifapplicationlibrary.i.IDataSourceParser;
 
+/**
+ * App configuration bundle
+ */
 public class GifApplicationBundle {
+    /**
+     * Name of the application. Shown in the Toolbar
+     */
 	private String appName;
+    /**
+     * Data source target URL.
+     * Not directly used in the app, but transmitted as parameter
+     *  in DataSourceParser.parseDataSource method
+     */
     private String dataSourceUrl;
+    /**
+     * DataSourceParser interface. Must be implemented:
+     *  the parseDataSource method will be used to get a Gif ArrayList
+     */
     private IDataSourceParser dataSourceParser;
+    /**
+     * Gifs directory name on SD card. Must not contain trailing slash.
+     */
     private String sdDirectory;
+    /**
+     * Text displayed on "about" MenuItem action
+     */
 	private String aboutText;
+    /**
+     * Activity set as Intent target when hitting the notification when
+     *  there are new gifs
+     */
 	private Class<?> notificationsIntentTarget;
 
     public GifApplicationBundle(String appName,
