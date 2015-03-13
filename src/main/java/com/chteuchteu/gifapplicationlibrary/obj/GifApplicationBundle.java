@@ -34,19 +34,25 @@ public class GifApplicationBundle {
      *  there are new gifs
      */
 	private Class<?> notificationsIntentTarget;
+    /**
+     * Notifications service class: used when launching service
+     */
+    private Class<?> notificationsServiceClass;
 
     public GifApplicationBundle(String appName,
                                 String dataSourceUrl,
                                 IDataSourceParser dataSourceParser,
                                 String sdDirectory,
                                 String aboutText,
-                                Class<?> notificationsIntentTarget) {
+                                Class<?> notificationsIntentTarget,
+                                Class<?> notificationsServiceClass) {
 	    this.appName = appName;
         this.dataSourceUrl = dataSourceUrl;
         this.dataSourceParser = dataSourceParser;
         this.sdDirectory = sdDirectory;
 	    this.aboutText = aboutText;
 	    this.notificationsIntentTarget = notificationsIntentTarget;
+        this.notificationsServiceClass = notificationsServiceClass;
     }
 
 	public String getAppName() {
@@ -72,4 +78,8 @@ public class GifApplicationBundle {
 	public Class<?> getNotificationsIntentTarget() {
 		return notificationsIntentTarget;
 	}
+
+    public Class<?> getNotificationsServiceClass() {
+        return notificationsServiceClass;
+    }
 }

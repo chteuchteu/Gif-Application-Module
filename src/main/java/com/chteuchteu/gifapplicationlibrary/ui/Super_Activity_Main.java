@@ -1,9 +1,12 @@
 package com.chteuchteu.gifapplicationlibrary.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -151,6 +154,29 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         return (ProgressBar) findViewById(R.id.pb);
     }
 
+    private void enableNotifs() {
+        MainUtil.Prefs.setPref(this, "notifs", true);
+
+        int minutes = 180;
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent i = new Intent(this, gas.getBundle().getNotificationsServiceClass());
+        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+        am.cancel(pi);
+        am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + minutes*60*1000, minutes*60*1000, pi);
+        if (menu_list_notifications != null)
+            menu_list_notifications.setChecked(true);
+        try {
+            pi.send();
+        } catch (PendingIntent.CanceledException e) {	e.printStackTrace(); }
+    }
+
+    private void disableNotifs() {
+        MainUtil.Prefs.setPref(this, "notifs", false);
+        if (menu_list_notifications != null)
+            menu_list_notifications.setChecked(false);
+    }
+
     @SuppressLint("NewApi")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -160,6 +186,12 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             MainUtil.Prefs.setPref(this, "lastGifsListUpdate", "doitnow");
             new DataSourceParser(this).execute();
             return true;
+        } else if (item.getItemId() == R.id.menu_list_notifications) {
+            item.setChecked(!item.isChecked());
+            if (item.isChecked())
+                enableNotifs();
+            else
+                disableNotifs();
         } else if (item.getItemId() == R.id.menu_list_about) {
             final LinearLayout l = (LinearLayout) findViewById(R.id.about);
 	        TextView aboutTv = (TextView) findViewById(R.id.about_textView);
