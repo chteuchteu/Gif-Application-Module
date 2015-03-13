@@ -16,6 +16,10 @@ public class MainUtil {
             return c.getSharedPreferences("user_pref", Context.MODE_PRIVATE).getString(key, "");
         }
 
+        public static boolean getBoolean(Context c, String key, boolean defaultValue) {
+            return c.getSharedPreferences("user_pref", Context.MODE_PRIVATE).getBoolean(key, defaultValue);
+        }
+
         public static void setPref(Context c, String key, String value) {
             if (value.equals(""))
                 removePref(c, key);
@@ -25,6 +29,13 @@ public class MainUtil {
                 editor.putString(key, value);
                 editor.apply();
             }
+        }
+
+        public static void setPref(Context c, String key, boolean value) {
+            SharedPreferences prefs = c.getSharedPreferences("user_pref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(key, value);
+            editor.apply();
         }
 
         public static void removePref(Context c, String key) {
