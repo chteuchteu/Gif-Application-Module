@@ -23,7 +23,7 @@ public class GifApplicationSingleton {
         this.context = context;
         this.bundle = bundle;
         this.gifs = new ArrayList<>();
-        SDUtil.createDirectoryIfNecessary(bundle.getSdDirectory());
+        CacheUtil.createDirectoryIfNecessary(bundle.getSdDirectory());
         loadGifsFromCache();
     }
 

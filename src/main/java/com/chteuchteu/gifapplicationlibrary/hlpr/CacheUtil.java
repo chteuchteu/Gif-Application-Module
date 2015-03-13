@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CacheUtil {
+    public static boolean createDirectoryIfNecessary(String sdFolderName) {
+        File dir = new File(Environment.getExternalStorageDirectory().getPath() + "/" + sdFolderName + "/");
+        return !dir.exists() && dir.mkdirs();
+    }
+
     public static List<Gif> getGifs(Context context) {
         String[] stringGifs = MainUtil.Prefs.getPref(context, "gifs").split(";;");
         List<Gif> list = new ArrayList<>();
