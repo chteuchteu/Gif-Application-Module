@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
 import com.chteuchteu.gifapplicationlibrary.hlpr.MainUtil;
-import com.chteuchteu.gifapplicationlibrary.hlpr.SDUtil;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 import com.chteuchteu.gifapplicationlibrary.obj.GifApplicationBundle;
 
