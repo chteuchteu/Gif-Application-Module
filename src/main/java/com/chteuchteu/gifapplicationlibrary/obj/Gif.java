@@ -3,6 +3,7 @@ package com.chteuchteu.gifapplicationlibrary.obj;
 import android.os.Environment;
 
 public class Gif {
+	private long id;
     private String name;
     private String articleUrl;
     private String gifUrl;
@@ -12,6 +13,7 @@ public class Gif {
     public enum GifState { UNKNOWN, EMPTY, DOWNLOADING, COMPLETE }
 
     public Gif() {
+	    this.id = -1;
         this.name = "";
         this.articleUrl = "";
         this.gifUrl = "";
@@ -19,11 +21,13 @@ public class Gif {
         this.state = GifState.UNKNOWN;
     }
 
-    public Gif(String name, String articleUrl, String gifUrl, String date) {
+    public Gif(long id, String name, String articleUrl, String gifUrl, String date) {
+	    this.id = id;
         this.name = name;
         this.articleUrl = articleUrl;
         this.gifUrl = gifUrl;
         this.date = date;
+	    this.state = GifState.UNKNOWN;
     }
 
     public boolean isValid() {
@@ -52,7 +56,14 @@ public class Gif {
         return path;
     }
 
-    public String getName() {
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getName() {
         return name;
     }
     public void setName(String name) {

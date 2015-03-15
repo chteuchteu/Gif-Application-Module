@@ -17,29 +17,6 @@ public class CacheUtil {
         return !dir.exists() && dir.mkdirs();
     }
 
-    public static List<Gif> getGifs(Context context) {
-        String[] stringGifs = MainUtil.Prefs.getPref(context, "gifs").split(";;");
-        List<Gif> list = new ArrayList<>();
-        for (String string : stringGifs) {
-            Gif g = new Gif(string.split("::")[0], string.split("::")[1],
-                    string.split("::")[2], string.split("::")[3]);
-            list.add(g);
-        }
-        return list;
-    }
-
-    public static void saveGifs(Context context, List<Gif> gifs) {
-        String str = "";
-        int i=0;
-        for (Gif g : gifs) {
-            str += g.getName() + "::" + g.getArticleUrl() + "::" + g.getGifUrl() + "::" + g.getDate();
-            if (i != gifs.size()-1)
-                str += ";;";
-            i++;
-        }
-        MainUtil.Prefs.setPref(context, "gifs", str);
-    }
-
     public static void clearCache(Context context, String sdFolderName) {
         String path = Environment.getExternalStorageDirectory().toString() + "/" + sdFolderName +"/";
         File dir = new File(path);
@@ -67,20 +44,18 @@ public class CacheUtil {
             MainUtil.Prefs.setPref(context, "lastViewed", firstGif.getArticleUrl());
     }
 
-    public static boolean removeUncompleteGifs(String sdFolderName, Context context, List<Gif> l) {
-        boolean needSave = false;
+    public static boolean removeUncompleteGifs(String sdFolderName, List<Gif> l) {
+        boolean gifsDeleted = false;
         for (Gif g : l) {
             if (g.getState() == Gif.GifState.DOWNLOADING) {
                 File f = new File(g.getEntiereFileName(sdFolderName, false));
-                if (f.exists())
-                    f.delete();
+                if (f.exists() && f.delete())
+                    gifsDeleted = true;
                 g.setState(Gif.GifState.EMPTY);
-                needSave = true;
             }
         }
-        if (needSave)
-            saveGifs(context, l);
-        return needSave;
+
+        return gifsDeleted;
     }
     // TODO clean method
 	public static void removeOldGifs(String sdFolderName, List<Gif> l) {

@@ -3,7 +3,7 @@ package com.chteuchteu.gifapplicationlibrary;
 import android.content.Context;
 
 import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
-import com.chteuchteu.gifapplicationlibrary.hlpr.MainUtil;
+import com.chteuchteu.gifapplicationlibrary.hlpr.SQLiteHelper;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 import com.chteuchteu.gifapplicationlibrary.obj.GifApplicationBundle;
 
@@ -15,13 +15,13 @@ public class GifApplicationSingleton {
 
     private GifApplicationBundle bundle;
 
-    private Context context;
-    private List<Gif> gifs;
+	private List<Gif> gifs;
+	private SQLiteHelper sqLiteHelper;
 
     private GifApplicationSingleton(Context context, GifApplicationBundle bundle) {
-        this.context = context;
         this.bundle = bundle;
         this.gifs = new ArrayList<>();
+	    this.sqLiteHelper = new SQLiteHelper(context);
         CacheUtil.createDirectoryIfNecessary(bundle.getSdDirectory());
         loadGifsFromCache();
     }
@@ -36,12 +36,7 @@ public class GifApplicationSingleton {
     }
 
     private void loadGifsFromCache() {
-        if (MainUtil.Prefs.getPref(context, "gifs").equals(""))
-            return;
-
-        this.gifs.clear();
-        List<Gif> gifs = CacheUtil.getGifs(context);
-        this.gifs.addAll(gifs);
+        this.gifs.addAll(this.sqLiteHelper.getGifs());
     }
 
     public void setGifs(List<Gif> gifs) {
@@ -52,4 +47,7 @@ public class GifApplicationSingleton {
     public Gif getFirstGif() { return this.gifs.size() > 0 ? this.gifs.get(0) : null; }
 
     public GifApplicationBundle getBundle() { return this.bundle; }
+
+	public SQLiteHelper getSqLiteHelper() { return instance.sqLiteHelper; }
+	public static SQLiteHelper getSqLiteHelper(Context context) { return new SQLiteHelper(context); }
 }

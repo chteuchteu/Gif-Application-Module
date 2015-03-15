@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 
+import com.chteuchteu.gifapplicationlibrary.GifApplicationSingleton;
 import com.chteuchteu.gifapplicationlibrary.R;
-import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
 import com.chteuchteu.gifapplicationlibrary.hlpr.MainUtil;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 import com.chteuchteu.gifapplicationlibrary.obj.GifApplicationBundle;
@@ -47,7 +47,7 @@ public class NotificationsPollTask extends AsyncTask<Void, Void, Void> {
 		}
 
 		if (nbUnseenGifs > 0)
-			CacheUtil.saveGifs(context, gifs);
+			GifApplicationSingleton.getSqLiteHelper(context).saveGifs(gifs, false);
 
 		return null;
 	}

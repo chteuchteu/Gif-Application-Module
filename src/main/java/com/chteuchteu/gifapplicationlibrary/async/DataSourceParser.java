@@ -70,7 +70,7 @@ public class DataSourceParser extends AsyncTask<Void, Integer, Void> {
 
             gas.setGifs(newGifs);
 
-            CacheUtil.saveGifs(context, newGifs);
+            gas.getSqLiteHelper().saveGifs(newGifs, false);
         }
 
         return null;

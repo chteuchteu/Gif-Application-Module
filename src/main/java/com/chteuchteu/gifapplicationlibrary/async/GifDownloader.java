@@ -159,7 +159,7 @@ public class GifDownloader extends AsyncTask<Void, Integer, Void> {
     private void onDownloadError() {
         Toast.makeText(context, R.string.download_error, Toast.LENGTH_SHORT).show();
         gif.setState(Gif.GifState.DOWNLOADING);
-        CacheUtil.removeUncompleteGifs(gas.getBundle().getSdDirectory(), context, gas.getGifs());
+        CacheUtil.removeUncompleteGifs(gas.getBundle().getSdDirectory(), gas.getGifs());
         progressBar.setVisibility(View.GONE);
     }
 }
