@@ -18,16 +18,7 @@
 		android:layout_height="match_parent"
         android:background="@drawable/toolbar_shadow">
 
-        <FrameLayout
-            android:id="@+id/listFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <FrameLayout
-            android:id="@+id/gifsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
+        <include layout="@layout/part_fragments" />
 
         <ProgressBar
             android:id="@+id/pb"

@@ -1,14 +1,12 @@
 package com.chteuchteu.gifapplicationlibrary.hlpr;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.chteuchteu.gifapplicationlibrary.R;
 
 public class MainUtil {
     public static final class Prefs {
@@ -80,4 +78,19 @@ public class MainUtil {
             }
         }
     }
+
+	public enum DeviceSizeCategory { SMALL, NORMAL, LARGE, XLARGE, UNKNOWN }
+	public static DeviceSizeCategory getDeviceSizeCategory(Context context) {
+		int screenLayout = context.getResources().getConfiguration().screenLayout;
+		if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE)
+			return DeviceSizeCategory.XLARGE;
+		else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE)
+			return DeviceSizeCategory.LARGE;
+		else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL)
+			return DeviceSizeCategory.NORMAL;
+		else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL)
+			return DeviceSizeCategory.SMALL;
+		else
+			return DeviceSizeCategory.UNKNOWN;
+	}
 }

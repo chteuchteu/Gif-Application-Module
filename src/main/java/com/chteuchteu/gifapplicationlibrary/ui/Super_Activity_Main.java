@@ -38,6 +38,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
     private Fragment_Gifs fragment_gifs;
     private View fragment_gifsContainer;
 
+	private enum LayoutStyle { FULLSCREEN, SIDE_BY_SIDE }
+	private LayoutStyle layoutStyle;
+
     // MenuItems
     private MenuItem menu_list_refresh;
     private MenuItem menu_list_about;
@@ -53,6 +56,8 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+	    layoutStyle = isDeviceLarge(MainUtil.getDeviceSizeCategory(this)) ? LayoutStyle.SIDE_BY_SIDE : LayoutStyle.FULLSCREEN;
+
 	    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +68,9 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         fragment_gifs = new Fragment_Gifs();
         getSupportFragmentManager().beginTransaction().add(R.id.gifsFragment, fragment_gifs).commit();
         fragment_gifsContainer = findViewById(R.id.gifsFragment);
+
+	    if (layoutStyle == LayoutStyle.FULLSCREEN)
+		    fragment_gifsContainer.setVisibility(View.GONE);
 
         launchUpdateIfNeeded();
     }
@@ -87,7 +95,7 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
                 }
             });
             about.startAnimation(a);
-        } else if (fragment_gifsContainer.getVisibility() == View.VISIBLE)
+        } else if (layoutStyle == LayoutStyle.FULLSCREEN && fragment_gifsContainer.getVisibility() == View.VISIBLE)
             backToList();
         else
             super.onBackPressed();
@@ -112,36 +120,41 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
 
     @Override
     public void onListItemClick(int position) {
-        fragment_listContainer.setVisibility(View.GONE);
-        fragment_gifsContainer.setVisibility(View.VISIBLE);
-        fragment_gifs.setShownGif(position);
+	    fragment_gifs.setShownGif(position);
 
-        menu_list_refresh.setVisible(false);
-        menu_list_about.setVisible(false);
-        menu_list_notifications.setVisible(false);
-        menu_list_clearCache.setVisible(false);
-        menu_gif_share.setVisible(true);
-        menu_gif_openWebsite.setVisible(true);
-        menu_gif_refresh.setVisible(true);
+	    if (layoutStyle == LayoutStyle.FULLSCREEN) {
+		    fragment_listContainer.setVisibility(View.GONE);
+		    fragment_gifsContainer.setVisibility(View.VISIBLE);
 
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		    menu_list_refresh.setVisible(false);
+		    menu_list_about.setVisible(false);
+		    menu_list_notifications.setVisible(false);
+		    menu_list_clearCache.setVisible(false);
+		    menu_gif_share.setVisible(true);
+		    menu_gif_openWebsite.setVisible(true);
+		    menu_gif_refresh.setVisible(true);
+
+		    getSupportActionBar().setTitle("");
+		    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    }
     }
 
     private void backToList() {
-        fragment_listContainer.setVisibility(View.VISIBLE);
-        fragment_gifsContainer.setVisibility(View.GONE);
+	    if (layoutStyle == LayoutStyle.FULLSCREEN) {
+		    fragment_listContainer.setVisibility(View.VISIBLE);
+		    fragment_gifsContainer.setVisibility(View.GONE);
 
-        menu_list_refresh.setVisible(true);
-        menu_list_about.setVisible(true);
-        menu_list_notifications.setVisible(true);
-        menu_list_clearCache.setVisible(true);
-        menu_gif_share.setVisible(false);
-        menu_gif_openWebsite.setVisible(false);
-        menu_gif_refresh.setVisible(false);
+		    menu_list_refresh.setVisible(true);
+		    menu_list_about.setVisible(true);
+		    menu_list_notifications.setVisible(true);
+		    menu_list_clearCache.setVisible(true);
+		    menu_gif_share.setVisible(false);
+		    menu_gif_openWebsite.setVisible(false);
+		    menu_gif_refresh.setVisible(false);
 
-        getSupportActionBar().setTitle(gas.getBundle().getAppName());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		    getSupportActionBar().setTitle(gas.getBundle().getAppName());
+		    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+	    }
     }
 
 	@Override
@@ -275,6 +288,21 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
         menu_gif_openWebsite = menu.findItem(R.id.menu_gif_openWebsite);
         menu_gif_refresh = menu.findItem(R.id.menu_gif_refresh);
 
+	    if (layoutStyle == LayoutStyle.SIDE_BY_SIDE) {
+		    // Show all menu items on SIDE_BY_SIDE layout
+		    menu_list_refresh.setVisible(true);
+		    menu_list_about.setVisible(true);
+		    menu_list_notifications.setVisible(true);
+		    menu_list_clearCache.setVisible(true);
+		    menu_gif_share.setVisible(true);
+		    menu_gif_openWebsite.setVisible(true);
+		    menu_gif_refresh.setVisible(true);
+	    }
+
         return true;
     }
+
+	private static boolean isDeviceLarge(MainUtil.DeviceSizeCategory deviceSizeCategory) {
+		return deviceSizeCategory == MainUtil.DeviceSizeCategory.LARGE || deviceSizeCategory == MainUtil.DeviceSizeCategory.XLARGE;
+	}
 }
