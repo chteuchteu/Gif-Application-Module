@@ -10,4 +10,9 @@ public interface IActivity_Main {
 
 	// Fragment
     public void onListItemClick(int position);
+
+	/**
+	 * Called whenever the Fragment_Gifs currently displayed gif changes
+	 */
+	public void onFragmentGifsItemChanged(int newItem);
 }

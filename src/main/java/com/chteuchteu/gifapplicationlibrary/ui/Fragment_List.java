@@ -78,4 +78,8 @@ public class Fragment_List extends Fragment {
         });
         CacheUtil.saveLastViewed(context, gas.getFirstGif());
     }
+
+	public void setSelectedItem(final int position) {
+		listView.setSelection(position);
+	}
 }

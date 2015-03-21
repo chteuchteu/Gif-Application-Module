@@ -118,7 +118,12 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             new DataSourceParser(this).execute();
     }
 
-    @Override
+	@Override
+	public void onFragmentGifsItemChanged(int newItem) {
+		fragment_list.setSelectedItem(newItem);
+	}
+
+	@Override
     public void onListItemClick(int position) {
 	    fragment_gifs.setShownGif(position);
 
@@ -253,6 +258,11 @@ public class Super_Activity_Main extends ActionBarActivity implements IActivity_
             return true;
         } else if (item.getItemId() == R.id.menu_list_clearCache) {
             CacheUtil.clearCache(this, gas.getBundle().getSdDirectory());
+	        gas.getSqLiteHelper().removeGifs();
+
+	        // We deleted gifs list, let's refresh
+	        MainUtil.Prefs.setPref(this, "lastGifsListUpdate", "doitnow");
+	        new DataSourceParser(this).execute();
             return true;
         } else if (item.getItemId() == R.id.menu_gif_share) {
             Gif gif = gas.getGifs().get(fragment_gifs.getCurrentPosition());

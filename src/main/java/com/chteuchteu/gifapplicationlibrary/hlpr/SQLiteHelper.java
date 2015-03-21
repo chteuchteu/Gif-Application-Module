@@ -110,6 +110,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		return gifs;
 	}
 
+	public void removeGifs() {
+		String query = "DELETE FROM " + TABLE_GIFS;
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_GIFS, null, null);
+	}
+
 	public static Long persistDate(Calendar calendar) {
 		return calendar != null ? calendar.getTimeInMillis() : null;
 	}

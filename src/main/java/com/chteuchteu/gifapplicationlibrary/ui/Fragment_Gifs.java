@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 
 import com.chteuchteu.gifapplicationlibrary.GifApplicationSingleton;
 import com.chteuchteu.gifapplicationlibrary.R;
+import com.chteuchteu.gifapplicationlibrary.i.IActivity_Main;
 
 public class Fragment_Gifs extends Fragment {
+	private IActivity_Main activity;
     private FragmentManager fragmentManager;
 
     private ViewPager viewPager;
@@ -23,6 +25,7 @@ public class Fragment_Gifs extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.fragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
+	    this.activity = (IActivity_Main) activity;
     }
 
     @Override
@@ -36,6 +39,16 @@ public class Fragment_Gifs extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);
+	    viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		    @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+		    @Override
+		    public void onPageSelected(int position) {
+				activity.onFragmentGifsItemChanged(position);
+		    }
+
+		    @Override public void onPageScrollStateChanged(int state) { }
+	    });
 
         return view;
     }
