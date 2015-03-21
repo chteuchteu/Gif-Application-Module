@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -31,7 +32,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ KEY_GIFS_NAME + " TEXT,"
 			+ KEY_GIFS_ARTICLEURL + " TEXT,"
 			+ KEY_GIFS_GIFURL + " TEXT,"
-			+ KEY_GIFS_DATE + " TEXT)";
+			+ KEY_GIFS_DATE + " INTEGER)";
 
 	private Context context;
 
@@ -77,7 +78,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			values.put(KEY_GIFS_NAME, gif.getName());
 			values.put(KEY_GIFS_ARTICLEURL, gif.getArticleUrl());
 			values.put(KEY_GIFS_GIFURL, gif.getGifUrl());
-			values.put(KEY_GIFS_DATE, gif.getDate());
+			values.put(KEY_GIFS_DATE, persistDate(gif.getDate()));
 
 			gif.setId(db.insert(TABLE_GIFS, null, values));
 		}
@@ -88,7 +89,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public List<Gif> getGifs() {
 		List<Gif> gifs = new ArrayList<>();
 
-		String selectQuery = "SELECT * FROM " + TABLE_GIFS;
+		String selectQuery = "SELECT * FROM " + TABLE_GIFS + " ORDER BY " + KEY_GIFS_DATE + " DESC";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
@@ -99,7 +100,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 						c.getString(c.getColumnIndex(KEY_GIFS_NAME)),
 						c.getString(c.getColumnIndex(KEY_GIFS_ARTICLEURL)),
 						c.getString(c.getColumnIndex(KEY_GIFS_GIFURL)),
-						c.getString(c.getColumnIndex(KEY_GIFS_DATE))
+						loadDate(c, c.getColumnIndex(KEY_GIFS_DATE))
 				));
 			} while(c.moveToNext());
 		}
@@ -107,5 +108,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		close(c, db);
 
 		return gifs;
+	}
+
+	public static Long persistDate(Calendar calendar) {
+		return calendar != null ? calendar.getTimeInMillis() : null;
+	}
+
+	public static Calendar loadDate(Cursor cursor, int index) {
+		if (cursor.isNull(index))
+			return null;
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(cursor.getLong(index));
+		return calendar;
 	}
 }

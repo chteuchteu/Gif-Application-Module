@@ -2,12 +2,14 @@ package com.chteuchteu.gifapplicationlibrary.obj;
 
 import android.os.Environment;
 
+import java.util.Calendar;
+
 public class Gif {
 	private long id;
     private String name;
     private String articleUrl;
     private String gifUrl;
-    private String date;
+    private Calendar date;
     private GifState state;
 
     public enum GifState { UNKNOWN, EMPTY, DOWNLOADING, COMPLETE }
@@ -17,11 +19,11 @@ public class Gif {
         this.name = "";
         this.articleUrl = "";
         this.gifUrl = "";
-        this.date = "";
+        this.date = Calendar.getInstance();
         this.state = GifState.UNKNOWN;
     }
 
-    public Gif(long id, String name, String articleUrl, String gifUrl, String date) {
+    public Gif(long id, String name, String articleUrl, String gifUrl, Calendar date) {
 	    this.id = id;
         this.name = name;
         this.articleUrl = articleUrl;
@@ -84,10 +86,10 @@ public class Gif {
         this.gifUrl = gifUrl;
     }
 
-    public String getDate() {
+    public Calendar getDate() {
         return date;
     }
-    public void setDate(String date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 

@@ -17,8 +17,10 @@ import com.chteuchteu.gifapplicationlibrary.hlpr.CacheUtil;
 import com.chteuchteu.gifapplicationlibrary.i.IActivity_Main;
 import com.chteuchteu.gifapplicationlibrary.obj.Gif;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Fragment_List extends Fragment {
     private IActivity_Main iActivity;
@@ -55,11 +57,13 @@ public class Fragment_List extends Fragment {
     public void refreshListView() {
         this.list.clear();
 
+	    SimpleDateFormat format = new SimpleDateFormat("d-MM", Locale.FRENCH);
+
         for (Gif g : gas.getGifs()) {
             if (g.isValid()) {
                 HashMap<String,String> item = new HashMap<>();
                 item.put("line1", g.getName());
-                item.put("line2", g.getDate());
+                item.put("line2", format.format(g.getDate().getTime()));
                 list.add(item);
             }
         }
