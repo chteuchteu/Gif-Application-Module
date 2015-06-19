@@ -2,6 +2,8 @@ package com.chteuchteu.gifapplicationlibrary.obj;
 
 import android.os.Environment;
 
+import com.chteuchteu.gifapplicationlibrary.hlpr.MainUtil;
+
 import java.util.Calendar;
 
 public class Gif {
@@ -50,11 +52,15 @@ public class Gif {
         return elements[elements.length-1];
     }
 
+    public String getFileType() {
+        return MainUtil.getExtension(this.gifUrl);
+    }
+
     public String getEntiereFileName(String sdFolderName, boolean withFilePrefix) {
         String path = "";
         if (withFilePrefix)
             path += "file://";
-        path += Environment.getExternalStorageDirectory().getPath() + "/" + sdFolderName + "/" + getFileName() + ".gif";
+        path += Environment.getExternalStorageDirectory().getPath() + "/" + sdFolderName + "/" + getFileName() + "." + getFileType();
         return path;
     }
 

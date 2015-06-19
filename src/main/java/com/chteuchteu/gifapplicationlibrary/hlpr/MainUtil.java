@@ -93,4 +93,8 @@ public class MainUtil {
 		else
 			return DeviceSizeCategory.UNKNOWN;
 	}
+
+    public static String getExtension(String uri) {
+        return uri.contains(".") ? uri.substring(uri.lastIndexOf(".") + 1) : "";
+    }
 }

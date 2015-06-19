@@ -8,10 +8,20 @@ import java.util.Date;
 
 public class GifUtil {
 	public static String getHtml(String gifPath) {
-		String css = "html, body, #wrapper {height:100%;width: 100%;margin: 0;padding: 0;border: 0;} #wrapper td {vertical-align: middle;text-align: center;} .container{width:100%;height:100%;background-image:url('" + gifPath +"'); background-size:contain; background-repeat:no-repeat;background-position:center;}";
-		//String js = "function resizeToMax(id){myImage = new Image();var img = document.getElementById(id);myImage.src = img.src;if(myImage.width / document.body.clientWidth > myImage.height / document.body.clientHeight){img.style.width = \"100%\"; } else {img.style.height = \"100%\";}}";
-		//String html = "<html><head><script>" + js + "</script><style>" + css + "</style></head><body><table id=\"wrapper\"><tr><td><img id=\"gif\" src=\""+ imagePath + "\" onload=\"resizeToMax(this.id)\" /></td></tr></table></body></html>";
-		return "<html><head><style>" + css + "</style></head><body><div class=\"container\"></div></body></html>";
+		String mainCss = "html, body {height:100%;width: 100%;margin: 0;padding: 0;border: 0;}";
+		String html = "";
+
+		if (gifPath.endsWith(".mp4") || gifPath.endsWith(".webm") || gifPath.endsWith(".ogg")) {
+			// This is a video
+			mainCss += "video { width: 100%; height: 100%; }";
+			String fileType = MainUtil.getExtension(gifPath);
+			html = "<video autoplay loop muted><source src=\"" + gifPath + "\" type=\"video/" + fileType + "\"></video>";
+		} else {
+			// This is a gif
+			mainCss += ".container{width:100%;height:100%;background-image:url('" + gifPath + "'); background-size:contain; background-repeat:no-repeat;background-position:center;}";
+		}
+
+		return "<html><head><style>" + mainCss + "</style></head><body><div class=\"container\">" + html + "</div></body></html>";
 	}
 
 	@SuppressLint("SimpleDateFormat")
