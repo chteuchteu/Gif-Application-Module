@@ -52,6 +52,9 @@ public class Gif {
         return elements[elements.length-1];
     }
 
+    /**
+     * Returns the file type, without the leading "."
+     */
     public String getFileType() {
         return MainUtil.getExtension(this.gifUrl);
     }
